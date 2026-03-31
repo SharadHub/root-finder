@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import { Link } from 'react-router-dom';
 
 // Mock data - in production, fetch from Supabase
 const blogPosts = [
@@ -55,15 +54,14 @@ export default function LatestBlogPosts() {
           {blogPosts.map((post) => (
             <Link
               key={post.id}
-              href={`/blog/${post.slug}`}
+              to={`/blog/${post.slug}`}
               className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden"
             >
               <div className="relative h-48">
-                <Image
+                <img
                   src={post.image}
                   alt={post.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <div className="p-6">
@@ -88,7 +86,7 @@ export default function LatestBlogPosts() {
 
         <div className="text-center mt-10">
           <Link
-            href="/blog"
+            to="/blog"
             className="inline-block bg-primary-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-600 transition-colors"
           >
             Read All Articles →

@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import { Link } from 'react-router-dom';
 
 const cities = [
   {
@@ -63,15 +62,14 @@ export default function FeaturedCities() {
           {cities.map((city) => (
             <Link
               key={city.slug}
-              href={`/directory?city=${city.slug}`}
+              to={`/directory?city=${city.slug}`}
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="relative h-64">
-                <Image
+                <img
                   src={city.image}
                   alt={city.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">

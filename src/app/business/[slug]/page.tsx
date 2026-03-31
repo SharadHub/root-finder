@@ -1,18 +1,87 @@
-import Image from 'next/image';
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { FiStar, FiMapPin, FiPhone, FiGlobe, FiMail } from 'react-icons/fi';
 import { db } from '@/lib/supabase';
-import { notFound } from 'next/navigation';
 
-export default async function BusinessPage({ params }: { params: { slug: string } }) {
-  const { data: business, error } = await db.getBusinessBySlug(params.slug);
+export default function BusinessPage() {
+  const { slug } = useParams();
+  const [business, setBusiness] = useState<any | null>(null);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  if (!business || error) {
-    notFound();
+  useEffect(() => {
+    let alive = true;
+
+    async function load() {
+      setLoading(true);
+      setNotFound(false);
+      setBusiness(null);
+      setReviews([]);
+
+      if (!slug) {
+        if (alive) {
+          setNotFound(true);
+          setLoading(false);
+        }
+        return;
+      }
+
+      const { data, error } = await db.getBusinessBySlug(slug);
+      if (!alive) return;
+
+      if (!data || error) {
+        setNotFound(true);
+        setLoading(false);
+        return;
+      }
+
+      setBusiness(data);
+
+      const { data: reviewData = [] } = await db.getReviewsByBusiness(data.id);
+      if (!alive) return;
+
+      setReviews(reviewData || []);
+      setLoading(false);
+    }
+
+    load();
+    return () => {
+      alive = false;
+    };
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-8">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500" />
+          <p className="mt-4 text-gray-600">Loading business...</p>
+        </div>
+      </div>
+    );
   }
 
-  const { data: reviews = [] } = await db.getReviewsByBusiness(business.id);
+  if (notFound || !business) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Business not found</h1>
+          <p className="text-gray-600">Please check the URL and try again.</p>
+        </div>
+      </div>
+    );
+  }
 
-  const ethnicityIcon = business.owner_ethnicity === 'chinese' ? '🇨🇳' : business.owner_ethnicity === 'japanese' ? '🇯🇵' : '🇰🇷';
+  const ethnicityIcon =
+    business.owner_ethnicity === 'chinese'
+      ? '🇨🇳'
+      : business.owner_ethnicity === 'japanese'
+        ? '🇯🇵'
+        : '🇰🇷';
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -21,22 +90,20 @@ export default async function BusinessPage({ params }: { params: { slug: string 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <div className="relative h-96 md:h-full">
             {business.photos?.[0] && (
-              <Image
+              <img
                 src={business.photos[0]}
                 alt={business.name}
-                fill
-                className="object-cover rounded-xl"
+                className="absolute inset-0 w-full h-full object-cover rounded-xl"
               />
             )}
           </div>
           <div className="grid grid-cols-2 gap-4">
             {business.photos?.slice(1, 4).map((photo: string, index: number) => (
               <div key={index} className="relative h-44">
-                <Image
+                <img
                   src={photo}
                   alt={`${business.name} ${index + 2}`}
-                  fill
-                  className="object-cover rounded-xl"
+                  className="absolute inset-0 w-full h-full object-cover rounded-xl"
                 />
               </div>
             ))}

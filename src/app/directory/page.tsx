@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'react-router-dom';
 import DirectoryFilters from '@/components/ui/DirectoryFilters';
 import BusinessCard from '@/components/ui/BusinessCard';
 import type { Business } from '@/types';
@@ -10,7 +10,7 @@ import { db } from '@/lib/supabase';
 import { Suspense } from 'react';
 
 function DirectoryContent() {
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
   // ... rest of the existing state and effects ...
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);

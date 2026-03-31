@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { FiHome, FiFileText, FiImage, FiUsers, FiBarChart2, FiSettings } from 'react-icons/fi';
 
 export default function AdminPage() {
@@ -95,7 +95,7 @@ export default function AdminPage() {
               <span className="text-xl font-bold text-primary-500">RootFinder Admin</span>
             </div>
             <div className="flex items-center gap-4">
-              <Link href="/" className="text-gray-600 hover:text-gray-900">
+              <Link to="/" className="text-gray-600 hover:text-gray-900">
                 View Site →
               </Link>
               <button

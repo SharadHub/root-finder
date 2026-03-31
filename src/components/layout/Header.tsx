@@ -1,20 +1,18 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 import { FiMenu, FiX, FiSearch } from 'react-icons/fi';
-
-import { useRouter } from 'next/navigation';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/directory?query=${encodeURIComponent(searchQuery)}`);
+      navigate(`/directory?query=${encodeURIComponent(searchQuery)}`);
       setSearchQuery('');
       setMobileMenuOpen(false);
     }
@@ -26,7 +24,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               <span className="text-2xl">🌏</span>
               <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400">
                 RootFinder
@@ -48,17 +46,17 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/directory" className="text-gray-700 hover:text-primary-500 font-medium transition-colors">
+            <Link to="/directory" className="text-gray-700 hover:text-primary-500 font-medium transition-colors">
               Directory
             </Link>
-            <Link href="/blog" className="text-gray-700 hover:text-primary-500 font-medium transition-colors">
+            <Link to="/blog" className="text-gray-700 hover:text-primary-500 font-medium transition-colors">
               Blog
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-primary-500 font-medium transition-colors">
+            <Link to="/about" className="text-gray-700 hover:text-primary-500 font-medium transition-colors">
               About
             </Link>
             <Link
-              href="/admin"
+              to="/admin"
               className="bg-primary-500 text-white px-5 py-2.5 rounded-full hover:bg-primary-600 font-semibold transition-all shadow-md hover:shadow-lg active:scale-95"
             >
               List Your Business
@@ -94,28 +92,28 @@ export default function Header() {
 
             <div className="space-y-1">
               <Link
-                href="/directory"
+                to="/directory"
                 className="block text-gray-700 hover:text-primary-500 py-2 px-3 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Directory
               </Link>
               <Link
-                href="/blog"
+                to="/blog"
                 className="block text-gray-700 hover:text-primary-500 py-2 px-3 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Blog
               </Link>
               <Link
-                href="/about"
+                to="/about"
                 className="block text-gray-700 hover:text-primary-500 py-2 px-3 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
               </Link>
               <Link
-                href="/admin"
+                to="/admin"
                 className="block bg-primary-500 text-white px-4 py-3 rounded-xl text-center font-bold shadow-md mx-2 mt-4"
                 onClick={() => setMobileMenuOpen(false)}
               >

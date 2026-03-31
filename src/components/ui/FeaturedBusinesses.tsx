@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import { Link } from 'react-router-dom';
 import { FiStar } from 'react-icons/fi';
 
 // Mock data - in production, fetch from Supabase
@@ -71,15 +70,14 @@ export default function FeaturedBusinesses() {
           {featuredBusinesses.map((business) => (
             <Link
               key={business.id}
-              href={`/business/${business.slug}`}
+              to={`/business/${business.slug}`}
               className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden"
             >
               <div className="relative h-48">
-                <Image
+                <img
                   src={business.image}
                   alt={business.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold">
                   {ethnicityIcons[business.ethnicity]} {business.ethnicity}-owned
@@ -112,7 +110,7 @@ export default function FeaturedBusinesses() {
 
         <div className="text-center mt-10">
           <Link
-            href="/directory"
+            to="/directory"
             className="inline-block bg-primary-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-600 transition-colors"
           >
             View All 3,500+ Listings →

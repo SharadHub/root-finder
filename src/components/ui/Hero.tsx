@@ -1,20 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 
 export default function Hero() {
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState('all');
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
     if (searchQuery) params.set('query', searchQuery);
     if (category !== 'all') params.set('category', category);
-    router.push(`/directory?${params.toString()}`);
+    navigate(`/directory?${params.toString()}`);
   };
 
   return (

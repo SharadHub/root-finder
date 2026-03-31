@@ -1,10 +1,39 @@
-import Link from 'next/link';
-import Image from 'next/image';
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client';
+
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { db } from '@/lib/supabase';
 
-export default async function BlogPage() {
-  const { data: posts, error } = await db.getBlogPosts(12);
-  const blogPosts = posts || [];
+export default function BlogPage() {
+  const [blogPosts, setBlogPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let alive = true
+    async function load() {
+      setLoading(true)
+      const { data: posts } = await db.getBlogPosts(12)
+      if (!alive) return
+      setBlogPosts(posts || [])
+      setLoading(false)
+    }
+    load()
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-8">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500" />
+          <p className="mt-4 text-gray-600">Loading blog posts...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (blogPosts.length === 0) {
     return (
@@ -28,15 +57,14 @@ export default async function BlogPage() {
         </div>
 
         {/* Featured Post */}
-        <Link href={`/blog/${blogPosts[0].slug}`} className="block mb-12">
+        <Link to={`/blog/${blogPosts[0].slug}`} className="block mb-12">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow">
             <div className="grid md:grid-cols-2 gap-0">
               <div className="relative h-64 md:h-auto">
-                <Image
+                <img
                   src={blogPosts[0].featured_image}
                   alt={blogPosts[0].title}
-                  fill
-                  className="object-cover"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
               <div className="p-8 flex flex-col justify-center">
@@ -64,15 +92,14 @@ export default async function BlogPage() {
           {blogPosts.slice(1).map((post) => (
             <Link
               key={post.id}
-              href={`/blog/${post.slug}`}
+              to={`/blog/${post.slug}`}
               className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden group"
             >
               <div className="relative h-48">
-                <Image
+                <img
                   src={post.featured_image}
                   alt={post.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <div className="p-6">
@@ -105,5 +132,5 @@ export default async function BlogPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

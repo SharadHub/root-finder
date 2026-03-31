@@ -1,9 +1,10 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client';
+
+import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
-async function getBlogPost(slug: string) {
+function getBlogPost(slug: string) {
   // Mock data - fetch from Supabase in production
   return {
     id: '1',
@@ -111,22 +112,29 @@ Kyoto offers incredible accommodations for Chinese travelers. Whether you choose
   };
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await getBlogPost(params.slug);
+export default function BlogPostPage() {
+  const { slug } = useParams();
+  const post = slug ? getBlogPost(slug) : null;
 
   if (!post) {
-    notFound();
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Post not found</h1>
+          <p className="text-gray-600">Please check the URL and try again.</p>
+        </div>
+      </div>
+    )
   }
 
   return (
     <article className="min-h-screen bg-white">
       {/* Featured Image */}
       <div className="relative h-96 w-full">
-        <Image
+        <img
           src={post.featured_image}
           alt={post.title}
-          fill
-          className="object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
       </div>
@@ -176,7 +184,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               {post.tags.map((tag) => (
                 <Link
                   key={tag}
-                  href={`/blog?tag=${tag}`}
+                  to={`/blog?tag=${tag}`}
                   className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200"
                 >
                   #{tag}
@@ -207,16 +215,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             {[1, 2, 3].map((i) => (
               <Link
                 key={i}
-                href="/blog/sample-post"
+                  to="/blog/sample-post"
                 className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden"
               >
                 <div className="relative h-40">
-                  <Image
-                    src={`https://images.unsplash.com/photo-${1500000000000 + i}?w=600`}
-                    alt="Related post"
-                    fill
-                    className="object-cover"
-                  />
+                    <img
+                      src={`https://images.unsplash.com/photo-${1500000000000 + i}?w=600`}
+                      alt="Related post"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
                 </div>
                 <div className="p-4">
                   <h3 className="font-bold text-gray-900 mb-2">Sample Related Post Title</h3>
@@ -228,5 +235,5 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </div>
       </div>
     </article>
-  );
+  )
 }

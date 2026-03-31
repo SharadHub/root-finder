@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import { Link } from 'react-router-dom';
 import { FiStar, FiMapPin, FiPhone, FiGlobe } from 'react-icons/fi';
 import type { Business } from '@/types';
 
@@ -25,11 +24,10 @@ export default function BusinessCard({ business }: BusinessCardProps) {
       <div className="md:flex">
         {/* Image */}
         <div className="md:w-80 h-64 md:h-auto relative">
-          <Image
+          <img
             src={business.photos[0] || '/placeholder.jpg'}
             alt={business.name}
-            fill
-            className="object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
           />
           {business.is_premium && (
             <div className="absolute top-4 left-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
@@ -102,7 +100,7 @@ export default function BusinessCard({ business }: BusinessCardProps) {
               <span className="text-primary-500 font-bold">{business.price_range}</span>
             </div>
             <Link
-              href={`/business/${business.slug}`}
+                  to={`/business/${business.slug}`}
               className="bg-primary-500 text-white px-6 py-2 rounded-lg hover:bg-primary-600 transition-colors font-semibold"
             >
               View Details →

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { FiMail, FiFacebook, FiTwitter, FiInstagram } from 'react-icons/fi';
 
 export default function Footer() {
@@ -21,10 +21,26 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Directory</h3>
             <ul className="space-y-2 text-sm text-gray-300">
-              <li><Link href="/directory?category=hotel" className="hover:text-white">Hotels</Link></li>
-              <li><Link href="/directory?category=cafe" className="hover:text-white">Cafes</Link></li>
-              <li><Link href="/directory?category=restaurant" className="hover:text-white">Restaurants</Link></li>
-              <li><Link href="/directory" className="hover:text-white">All Businesses</Link></li>
+              <li>
+                <Link to="/directory?category=hotel" className="hover:text-white">
+                  Hotels
+                </Link>
+              </li>
+              <li>
+                <Link to="/directory?category=cafe" className="hover:text-white">
+                  Cafes
+                </Link>
+              </li>
+              <li>
+                <Link to="/directory?category=restaurant" className="hover:text-white">
+                  Restaurants
+                </Link>
+              </li>
+              <li>
+                <Link to="/directory" className="hover:text-white">
+                  All Businesses
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -32,10 +48,26 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-sm text-gray-300">
-              <li><Link href="/about" className="hover:text-white">About Us</Link></li>
-              <li><Link href="/blog" className="hover:text-white">Blog</Link></li>
-              <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
-              <li><Link href="/admin" className="hover:text-white">List Your Business</Link></li>
+              <li>
+                <Link to="/about" className="hover:text-white">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog" className="hover:text-white">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-white">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link to="/admin" className="hover:text-white">
+                  List Your Business
+                </Link>
+              </li>
             </ul>
           </div>
 
