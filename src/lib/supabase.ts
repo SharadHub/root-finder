@@ -1,12 +1,12 @@
 // Supabase client configuration
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 // Fallback for build time if keys are missing
-if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('yourproject')) {
-  console.warn('⚠️ Supabase credentials missing. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local');
+if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('yourproject') || supabaseAnonKey.includes('yourproject')) {
+  console.warn('⚠️ Supabase credentials missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local');
 }
 
 export const supabase = createClient(
