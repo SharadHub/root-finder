@@ -4,7 +4,7 @@ Cultural travel directory for finding hotels, cafes, and restaurants owned by sp
 
 ## What’s included
 
-- Next.js 14 + TypeScript
+- React (Vite) + React Router
 - Tailwind CSS styling
 - Supabase (database + storage)
 - Public directory pages (search and filtering)
@@ -18,7 +18,7 @@ Cultural travel directory for finding hotels, cafes, and restaurants owned by sp
 
 ## Tech stack
 
-- Frontend: Next.js (App Router), React, TypeScript
+- Frontend: React (Vite), JavaScript (React Router)
 - Styling: Tailwind CSS
 - Backend: Supabase (Postgres + Storage)
 
@@ -50,9 +50,9 @@ cp .env.example .env.local
 Edit `.env.local`:
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_key # optional
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_key # optional
 ADMIN_SECRET_KEY=your_secret_password
 ```
 
@@ -68,7 +68,7 @@ Open `http://localhost:3000`.
 
 ```text
 src/
-  app/
+  app/              # route components (React Router)
     directory/
     business/[slug]/
     blog/[slug]/
@@ -78,9 +78,10 @@ src/
   lib/
   types/
 database-schema.sql
+index.html
+vite.config.js
 tailwind.config.js
 tsconfig.json
-next.config.js
 ```
 
 ## Deployment
